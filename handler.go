@@ -5,6 +5,8 @@ import (
 	pb "github.com/caquillo07/grpc-demo-user-service/proto/user"
 	"golang.org/x/crypto/bcrypt"
 	log "log"
+	"fmt"
+	"errors"
 )
 
 type service struct {
@@ -57,15 +59,25 @@ func (s *service) Auth(ctx context.Context, req *pb.User, res *pb.Token) error {
 func (s *service) Create(ctx context.Context, req *pb.User, res *pb.Response) error {
 	hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return err
+		errMsg := fmt.Sprintf("error hashing password: %v", err)
+		log.Println(errMsg)
+		return errors.New(errMsg)
 	}
 
 	req.Password = string(hashedPass)
 	if err := s.repo.Create(req); err != nil {
+		errMsg := fmt.Sprintf("error creating user: %v", err)
+		log.Println(errMsg)
+		return errors.New(errMsg)
+	}
+
+	token, err := s.tokenService.Encode(req)
+	if err != nil {
 		return err
 	}
 
 	res.User = req
+	res.Token = &pb.Token{Token: token}
 	return nil
 }
 

@@ -5,7 +5,7 @@ WORKDIR /go/src/github.com/caquillo07/grpc-demo-user-service
 COPY . .
 
 RUN go get -u github.com/golang/dep/cmd/dep
-RUN dep init && dep ensure
+RUN dep ensure -v
 RUN CGO_ENABLED=0 GOOS=linux go build -o user-service -a -installsuffix cgo .
 
 

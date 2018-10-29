@@ -10,5 +10,5 @@ func (model *User) BeforeCreate(scope *gorm.Scope) error {
 	if err != nil {
 		return err
 	}
-	return scope.SetColumn("Id", uid.String())
+	return scope.SetColumn("id", uid.String())
 }

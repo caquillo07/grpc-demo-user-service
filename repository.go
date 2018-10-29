@@ -38,11 +38,11 @@ func (repo UserRepository) Get(id string) (*pb.User, error) {
 }
 
 func (repo UserRepository) Create(user *pb.User) error {
-	return repo.db.First(&user).Error
+	return repo.db.Create(user).Error
 }
 
 func (repo UserRepository) GetByEmail(email string) (*pb.User, error) {
-	var user *pb.User
+	user := &pb.User{}
 	err := repo.db.Where("email = ?", email).First(&user).Error
 	if err != nil {
 		return nil, err
