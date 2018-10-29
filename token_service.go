@@ -22,7 +22,7 @@ type CustomClaims struct {
 	jwt.StandardClaims
 }
 
-type Autheable interface {
+type Authable interface {
 	Decode(token string) (*CustomClaims, error)
 	Encode(user *pb.User) (string, error)
 }

@@ -8,6 +8,11 @@ docker-image:
 	docker build -t user-service .
 
 run:
-	docker run -p 50053:50051 \
-    	-e MICRO_SERVER_ADDRESS=:50051 \
-    	-e MICRO_REGISTRY=mdns vessel-service
+	docker run --net="host" \
+		-p 50051 \
+		-e DB_HOST=localhost:5433 \
+		-e DB_PASSWORD=root \
+		-e DB_USER=postgres \
+		-e MICRO_SERVER_ADDRESS=:50051 \
+		-e MICRO_REGISTRY=mdns \
+		user-service

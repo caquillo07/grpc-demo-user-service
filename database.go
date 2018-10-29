@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	"os"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 func CreateConnection() (*gorm.DB, error) {
@@ -13,6 +14,6 @@ func CreateConnection() (*gorm.DB, error) {
 	DBName := os.Getenv("DB_NAME")
 	password := os.Getenv("DB_PASSWORD")
 
-	uri := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", host, user, DBName, password)
+	uri := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=disable", user, password, host, DBName)
 	return gorm.Open("postgres", uri)
 }
