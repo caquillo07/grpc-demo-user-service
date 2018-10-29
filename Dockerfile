@@ -1,6 +1,6 @@
 FROM golang:1.11.0 as builder
 
-WORKDIR /go/src/github.com/EwanValentine/shippy/user-service
+WORKDIR /go/src/github.com/caquillo07/grpc-demo-user-service
 
 COPY . .
 
@@ -15,6 +15,6 @@ RUN apk --no-cache add ca-certificates
 
 RUN mkdir /app
 WORKDIR /app
-COPY --from=builder /go/src/github.com/EwanValentine/shippy/user-service/user-service .
+COPY --from=builder /go/src/github.com/caquillo07/grpc-demo-user-service/user-service .
 
 CMD ["./user-service"]

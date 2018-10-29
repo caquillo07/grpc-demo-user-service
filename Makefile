@@ -1,5 +1,5 @@
 generate:
-	protoc -I. --go_out=plugins=micro:$(GOPATH)/src/github.com/caquillo07/grpc-demo-shipping-containers/user-service \
+	protoc -I. --go_out=plugins=micro:$(GOPATH)/src/github.com/caquillo07/grpc-demo-user-service \
     	proto/user/user.proto
 
 build: generate docker-image

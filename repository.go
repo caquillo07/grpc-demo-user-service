@@ -1,7 +1,7 @@
 package main
 
 import (
-	pb "github.com/caquillo07/grpc-demo-shipping-containers/user-service/proto/user"
+	pb "github.com/caquillo07/grpc-demo-user-service/proto/user"
 	"github.com/jinzhu/gorm"
 )
 
@@ -11,7 +11,7 @@ type Repository interface {
 	GetAll() (Users, error)
 	Get(id string) (*pb.User, error)
 	Create(user *pb.User) error
-	GetByEmailAndPassword(user *pb.User) (*pb.User, error)
+	GetByEmail(email string) (*pb.User, error)
 }
 
 type UserRepository struct {
@@ -41,10 +41,11 @@ func (repo UserRepository) Create(user *pb.User) error {
 	return repo.db.First(&user).Error
 }
 
-func (repo UserRepository) GetByEmailAndPassword(user *pb.User) (*pb.User, error) {
-	if err := repo.db.First(&user).Error; err != nil {
+func (repo UserRepository) GetByEmail(email string) (*pb.User, error) {
+	var user *pb.User
+	err := repo.db.Where("email = ?", email).First(&user).Error
+	if err != nil {
 		return nil, err
 	}
-
 	return user, nil
 }
