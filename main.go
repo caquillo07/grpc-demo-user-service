@@ -17,8 +17,6 @@ func main() {
 		log.Fatalf("could not connect to DB: %v\n", err)
 	}
 
-	fmt.Printf("connected to postgres %+v\n", db, err)
-
 	// Automatically migrates the user struct
 	// into database columns/types etc. This will
 	// check for changes and migrate them each time
